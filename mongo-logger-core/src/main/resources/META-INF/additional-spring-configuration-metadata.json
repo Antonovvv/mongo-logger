@@ -1,0 +1,9 @@
+{
+  "properties": [
+    {
+      "name": "mongologger",
+      "type": "java.lang.String",
+      "description": "Description for mongologger."
+    }
+  ]
+}

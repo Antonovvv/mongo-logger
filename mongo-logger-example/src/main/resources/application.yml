@@ -1,0 +1,2 @@
+mongologger:
+  uri: "mongodb://122.51.139.75:27017/test"
