@@ -43,16 +43,30 @@ public class MongoLogger implements MongoLoggerInterface {
 
     @Override
     public void commit(BaseLog log) {
+        this.commit(log, null);
+    }
+
+    @Override
+    public void commit(BaseLog log, String collectionName) {
         log.setInfo(getProperMap());
-        mongoTemplate.save(log);
+        if (collectionName == null || collectionName.equals("")) {
+            mongoTemplate.save(log);
+        } else {
+            mongoTemplate.save(log, collectionName);
+        }
         LOG.info("mongologger committed");
         this.cleanup();
     }
 
     @Override
-    public void commit() {
+    public void commit(String collectionName) {
         BaseLog log = new BaseLog();
-        this.commit(log);
+        this.commit(log, collectionName);
+    }
+
+    @Override
+    public void commit() {
+        this.commit("");
     }
 
     @Override

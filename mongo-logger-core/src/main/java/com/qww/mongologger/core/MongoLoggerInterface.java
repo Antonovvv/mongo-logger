@@ -14,6 +14,8 @@ public interface MongoLoggerInterface {
      * commit this log instance
      */
     void commit(BaseLog log);
+    void commit(BaseLog log, String collectionName);
+    void commit(String collectionName);
     void commit();
 
     /**

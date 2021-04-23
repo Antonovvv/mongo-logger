@@ -35,6 +35,7 @@ public class MLogAspect {
     private static final Logger log = org.slf4j.LoggerFactory.getLogger(MLogAspect.class);
     private ThreadLocal<BaseLog> logThread = new ThreadLocal<>();
     private ThreadLocal<MongoLogger> loggerThread = new ThreadLocal<>();
+    private String collectionName;
     private static final LocalVariableTableParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
 
     @Pointcut("@annotation(com.qww.mongologger.core.annotation.MLog)")
@@ -71,11 +72,11 @@ public class MLogAspect {
         }
 
         /*
-          获取日志类型
+          获取日志类型及集合名称
          */
         MLog annotation = method.getAnnotation(MLog.class);
         LogType logType = annotation.type();
-
+        this.collectionName = annotation.collectionName();
 
         if (logType.isAbove(LogType.EXEC)) {
 
@@ -198,7 +199,7 @@ public class MLogAspect {
         if (mLogger == null) {
             mLogger = MongoLoggerFactory.getMongoLogger();
         }
-        mLogger.commit(baseLog);
+        mLogger.commit(baseLog, collectionName);
         logThread.remove();
         loggerThread.remove();
     }

@@ -22,11 +22,11 @@ public class HomeController {
     public String custom() {
         mongoLogger.add("custom", true);
         mongoLogger.add("test", 1);
-        mongoLogger.commit();
+        mongoLogger.commit("custom");
         return "oh";
     }
 
-    @MLog
+    @MLog(collectionName = "param")
     @ResponseBody
     @RequestMapping("/param-log")
     public String home(HttpServletRequest request, HttpServletResponse response) {
