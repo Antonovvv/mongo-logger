@@ -23,7 +23,14 @@ public class HomeController {
         mongoLogger.add("custom", true);
         mongoLogger.add("test", 1);
         mongoLogger.commit("custom");
+        mongoLogger.getSelf(HomeController.class).test();
         return "oh";
+    }
+
+    @MLog()
+    public String test() {
+        mongoLogger.add("test method", true);
+        return "";
     }
 
     @MLog(collectionName = "param")

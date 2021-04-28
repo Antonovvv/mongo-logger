@@ -5,9 +5,11 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
+@Lazy(false)
 public class SpringBeanUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
@@ -16,8 +18,12 @@ public class SpringBeanUtil implements ApplicationContextAware {
         SpringBeanUtil.applicationContext = applicationContext;
     }
 
+    public static ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
     public static <T> T getBean(Class<T> clazz) {
-        return (T) applicationContext.getBean(clazz);
+        return applicationContext.getBean(clazz);
     }
 
     public static Object getBean(String name) throws BeansException {

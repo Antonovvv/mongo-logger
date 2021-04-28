@@ -4,11 +4,13 @@ import com.qww.mongologger.core.entity.BaseLog;
 import com.qww.mongologger.core.utils.JSONUtil;
 import com.qww.mongologger.core.utils.SpringBeanUtil;
 import org.slf4j.Logger;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Date;
@@ -30,7 +32,7 @@ public class MongoLogger implements MongoLoggerInterface {
     }
 
     public void setMongoTemplate() {
-        this.mongoTemplate = (MongoTemplate) SpringBeanUtil.getBean("_mongoTemplate");
+        this.mongoTemplate = (MongoTemplate) (SpringBeanUtil.getBean("_mongoTemplate"));
     }
 //    public void setMongoTemplate() {
 //        this.mongoTemplate = SpringBeanUtil.getBean(MongoTemplate.class);
@@ -77,6 +79,13 @@ public class MongoLogger implements MongoLoggerInterface {
 
     public void setInMLogAnnotation(Boolean inMLogAnnotation) {
         isInMLogAnnotation = inMLogAnnotation;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getSelf(Class<T> clazz) {
+        Object self = AopContext.currentProxy();
+        if (ClassUtils.getUserClass(self).equals(clazz)) return (T) self;
+        else return null;
     }
 
     private Map<String, String> getProperMap() {
