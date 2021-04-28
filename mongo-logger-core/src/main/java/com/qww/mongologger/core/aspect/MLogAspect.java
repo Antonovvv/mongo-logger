@@ -7,6 +7,7 @@ import com.qww.mongologger.core.annotation.MLog;
 import com.qww.mongologger.core.entity.BaseLog;
 import com.qww.mongologger.core.entity.ExecLog;
 import com.qww.mongologger.core.entity.WebLog;
+import com.qww.mongologger.core.utils.ReflectUtil;
 import com.qww.mongologger.core.utils.exceptions.MethodArgumentMismatchException;
 import com.qww.mongologger.core.utils.exceptions.NullMLoggerException;
 import org.aspectj.lang.JoinPoint;
@@ -18,6 +19,7 @@ import org.slf4j.Logger;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 // import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,6 +30,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Map;
 
 @Aspect
 @Component
@@ -44,6 +47,7 @@ public class MLogAspect {
     @Around("mLog()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
         MongoLogger mLogger;
+        LogType logType;
         Object result;
 
         /*
@@ -72,14 +76,18 @@ public class MLogAspect {
         }
 
         /*
-          获取日志类型及集合名称
+          确定日志类型及集合名称
          */
+        // Mapping mappingAnnotation = method.getDeclaredAnnotation(Mapping.class);
         MLog annotation = method.getAnnotation(MLog.class);
-        LogType logType = annotation.type();
+        if (annotation.type().equals(LogType.BASE)) {
+            logType = ReflectUtil.hasBeenAnnotated(method, Mapping.class) ? LogType.WEB : LogType.EXEC;
+        } else {
+            logType = annotation.type();
+        }
         this.collectionName = annotation.collectionName();
 
         if (logType.isAbove(LogType.EXEC)) {
-
             if (logType.equals(LogType.WEB)) {
                 /*
                   =====请求级日志行为=====
