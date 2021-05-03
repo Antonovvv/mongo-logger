@@ -27,6 +27,7 @@
         <module>mongo-logger-core</module>
         <module>mongo-logger-mapreduce</module>
         <module>mongo-logger-example</module>
+        <module>mongo-logger-admin</module>
     </modules>
 
     <licenses>
@@ -54,6 +55,11 @@
             <dependency>
                 <groupId>io.github.Antonovvv</groupId>
                 <artifactId>mongo-logger-core</artifactId>
+                <version>1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.Antonovvv</groupId>
+                <artifactId>mongo-logger-mapreduce</artifactId>
                 <version>1.0</version>
             </dependency>
         </dependencies>
