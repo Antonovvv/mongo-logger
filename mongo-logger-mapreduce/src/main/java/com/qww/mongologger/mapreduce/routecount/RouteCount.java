@@ -13,6 +13,7 @@ import java.io.IOException;
 public class RouteCount {
     public static boolean run(String mongoInputURI, String mongoOutputURI) throws IOException, ClassNotFoundException, InterruptedException {
         Configuration conf = new Configuration();
+        // conf.set("fs.defaultFS", "hdfs://122.51.139.75:9000");
         conf.set("mongo.input.uri", mongoInputURI);
         conf.set("mongo.output.uri", mongoOutputURI);
 
@@ -21,7 +22,7 @@ public class RouteCount {
         job.setMapperClass(RouteCountMapper.class);
         job.setReducerClass(RouteCountReducer.class);
 
-        job.setMapOutputKeyClass(RouteKey.class);
+        job.setMapOutputKeyClass(RouteCountKey.class);
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputKeyClass(BSONWritable.class);
         job.setOutputValueClass(IntWritable.class);

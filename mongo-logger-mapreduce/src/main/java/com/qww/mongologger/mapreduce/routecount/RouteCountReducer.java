@@ -3,18 +3,17 @@ package com.qww.mongologger.mapreduce.routecount;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.hadoop.io.BSONWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.bson.BSONObject;
 
 import java.io.IOException;
 
-public class RouteCountReducer extends Reducer<RouteKey, IntWritable, BSONWritable, IntWritable> {
-    private BSONWritable outPutKey = new BSONWritable();
-    private IntWritable outPutValue = new IntWritable();
+public class RouteCountReducer extends Reducer<RouteCountKey, IntWritable, BSONWritable, IntWritable> {
+    private final BSONWritable outPutKey = new BSONWritable();
+    private final IntWritable outPutValue = new IntWritable();
 
     @Override
-    protected void reduce(RouteKey key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+    protected void reduce(RouteCountKey key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
         // super.reduce(key, values, context);
         int sum = 0;
         for (final IntWritable value : values) {
