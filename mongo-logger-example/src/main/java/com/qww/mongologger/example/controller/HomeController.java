@@ -43,4 +43,15 @@ public class HomeController {
         }
         return "hello";
     }
+
+    @MLog(collectionName = "param")
+    @ResponseBody
+    @RequestMapping("/log")
+    public String log(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String[]> params = request.getParameterMap();
+        for (Map.Entry<String, String[]> param : params.entrySet()) {
+            mongoLogger.add(param.getKey(), param.getValue());
+        }
+        return "hello";
+    }
 }

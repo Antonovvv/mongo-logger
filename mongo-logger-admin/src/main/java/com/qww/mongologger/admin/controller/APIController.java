@@ -12,9 +12,16 @@ public class APIController {
     MapReduceService mapReduceService;
 
     @ResponseBody
-    @RequestMapping("/")
-    public String test() throws Exception {
+    @RequestMapping("/count")
+    public String count() throws Exception {
         mapReduceService.runRouteCount();
+        return "done";
+    }
+
+    @ResponseBody
+    @RequestMapping("/timeline")
+    public String timeline() throws Exception {
+        mapReduceService.runRouteTimeline();
         return "done";
     }
 }
