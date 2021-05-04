@@ -1,8 +1,13 @@
 package com.qww.mongologger.mapreduce;
 
+import org.apache.hadoop.io.Writable;
+
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.Objects;
 
-public class RouteKey {
+public class RouteKey implements Writable {
     protected String requestURL;
     protected String requestMethod;
 
@@ -48,5 +53,18 @@ public class RouteKey {
     @Override
     public int hashCode() {
         return Objects.hash(getRequestURL(), getRequestMethod());
+    }
+
+    @Override
+    public void write(DataOutput dataOutput) throws IOException {
+        dataOutput.writeUTF(this.requestURL);
+        dataOutput.writeUTF(this.requestMethod);
+    }
+
+    @Override
+    public void readFields(DataInput dataInput) throws IOException {
+        String reqURL = dataInput.readUTF();
+        String reqMethod = dataInput.readUTF();
+        this.set(reqURL, reqMethod);
     }
 }
