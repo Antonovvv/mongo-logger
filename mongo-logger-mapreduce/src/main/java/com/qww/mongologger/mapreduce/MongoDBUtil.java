@@ -2,9 +2,11 @@ package com.qww.mongologger.mapreduce;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,20 +52,31 @@ public class MongoDBUtil {
 
     public static MongoClient getMongoClient(ConnectionString connectionString) {
         List<ServerAddress> seeds = getServerAddresses(connectionString);
-        return new MongoClient(seeds);
+        if (connectionString.getUsername() != null) {
+            List<MongoCredential> mongoCredentialList = connectionString.getCredentialList();
+//            List<MongoCredential> mongoCredentialList = new ArrayList<>();
+//            mongoCredentialList.add(MongoCredential.createScramSha1Credential(
+//                    connectionString.getUsername(),
+//                    connectionString.getDatabase(),
+//                    connectionString.getPassword()
+//            ));
+            return new MongoClient(seeds, mongoCredentialList);
+        } else {
+            return new MongoClient(seeds);
+        }
     }
 
-    public static MongoCollection<?> getMongoCollection(String mongoURI) {
+    public static MongoCollection<Document> getMongoCollection(String mongoURI) {
         ConnectionString connectionString = getMongoConnectionString(mongoURI);
         return getMongoCollection(connectionString);
     }
 
-    public static MongoCollection<?> getMongoCollection(ConnectionString connectionString) {
+    public static MongoCollection<Document> getMongoCollection(ConnectionString connectionString) {
         MongoClient client = getMongoClient(connectionString);
         return getMongoCollection(client, connectionString);
     }
 
-    private static MongoCollection<?> getMongoCollection(MongoClient client, ConnectionString connectionString) {
+    private static MongoCollection<Document> getMongoCollection(MongoClient client, ConnectionString connectionString) {
         String databaseName = connectionString.getDatabase();
         if (databaseName == null) throw new NullPointerException();
         MongoDatabase db = client.getDatabase(databaseName);

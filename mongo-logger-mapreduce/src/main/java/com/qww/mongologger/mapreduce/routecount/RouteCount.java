@@ -1,5 +1,6 @@
 package com.qww.mongologger.mapreduce.routecount;
 
+import com.mongodb.ConnectionString;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.io.BSONWritable;
@@ -31,6 +32,7 @@ public class RouteCount {
         job.setInputFormatClass(MongoInputFormat.class);
         job.setOutputFormatClass(MongoOutputFormat.class);
 
+        MongoDBUtil.cleanMongoCollection(new ConnectionString(mongoOutputURI));
         return job.waitForCompletion(true);
     }
 
@@ -52,7 +54,7 @@ public class RouteCount {
             outputURI = "mongodb://122.51.139.75:27017/test.routeCount";
         }
 
-        MongoDBUtil.cleanMongoCollection(outputURI);
+//        MongoDBUtil.cleanMongoCollection(outputURI);
         boolean result = RouteCount.run(inputURI, outputURI);
         System.exit(result ? 0 : 1);
     }
