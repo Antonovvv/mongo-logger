@@ -1,7 +1,6 @@
 package com.qww.mongologger.core.entity;
 
 import com.qww.mongologger.core.entity.interfaces.ExecLogInterface;
-import com.qww.mongologger.core.utils.JSONUtil;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -20,12 +19,16 @@ public class ExecLog extends BaseLog implements ExecLogInterface {
     public ExecLog() {}
 
     public void addMethodArg(String name, Class<?> type, Object value) {
-        MethodArg arg = new MethodArg(name, type.getName(), JSONUtil.stringify(value));
+        MethodArg arg = new MethodArg(name, type.getName(), value);
         this.methodArgs.add(arg);
     }
 
+    public void setMethodArgs(List<MethodArg> methodArgs) {
+        this.methodArgs = methodArgs;
+    }
+
     public void setMethodReturn(Class<?> type, Object value) {
-        this.methodReturn = new MethodReturn(type.getName(), JSONUtil.stringify(value));
+        this.methodReturn = new MethodReturn(type.getName(), value);
     }
 
     public void setMethodError(Throwable throwing) {
@@ -68,17 +71,17 @@ public class ExecLog extends BaseLog implements ExecLogInterface {
         this.execTime = execTime;
     }
 
-//    @Override
-//    public String toString() {
-//        return "ExecLog{" +
-//                "className='" + className + '\'' +
-//                ", methodName='" + methodName + '\'' +
-//                ", methodArgs=" + methodArgs +
-//                ", methodReturn=" + methodReturn +
-//                ", methodError=" + methodError +
-//                ", execTime=" + execTime +
-//                "} " + super.toString();
-//    }
+    @Override
+    public String toString() {
+        return "ExecLog{" +
+                "className='" + className + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", methodArgs=" + methodArgs +
+                ", methodReturn=" + methodReturn +
+                ", methodError=" + methodError +
+                ", execTime=" + execTime +
+                "} " + super.toString();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -103,11 +106,25 @@ public class ExecLog extends BaseLog implements ExecLogInterface {
 class MethodArg {
     private String argName;
     private String argType;
-    private String argValue;
+    private Object argValue;
 
-    public MethodArg(String argName, String argType, String argValue) {
+    public MethodArg() {}
+
+    public MethodArg(String argName, String argType, Object argValue) {
         this.argName = argName;
         this.argType = argType;
+        this.argValue = argValue;
+    }
+
+    public void setArgName(String argName) {
+        this.argName = argName;
+    }
+
+    public void setArgType(String argType) {
+        this.argType = argType;
+    }
+
+    public void setArgValue(Object argValue) {
         this.argValue = argValue;
     }
 
@@ -119,7 +136,7 @@ class MethodArg {
         return this.argType;
     }
 
-    public String getArgValue() {
+    public Object getArgValue() {
         return this.argValue;
     }
 
@@ -150,10 +167,20 @@ class MethodArg {
 
 class MethodReturn {
     private String returnType;
-    private String returnValue;
+    private Object returnValue;
 
-    public MethodReturn(String returnType, String returnValue) {
+    public MethodReturn() {}
+
+    public MethodReturn(String returnType, Object returnValue) {
         this.returnType = returnType;
+        this.returnValue = returnValue;
+    }
+
+    public void setReturnType(String returnType) {
+        this.returnType = returnType;
+    }
+
+    public void setReturnValue(Object returnValue) {
         this.returnValue = returnValue;
     }
 
@@ -161,7 +188,7 @@ class MethodReturn {
         return this.returnType;
     }
 
-    public String getReturnValue() {
+    public Object getReturnValue() {
         return this.returnValue;
     }
 
@@ -192,8 +219,18 @@ class MethodError {
     private String errorType;
     private String message;
 
+    public MethodError() {}
+
     public MethodError(String errorType, String message) {
         this.errorType = errorType;
+        this.message = message;
+    }
+
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
     }
 

@@ -78,17 +78,17 @@ public class WebLog extends ExecLog implements WebLogInterface {
         this.localName = localName;
     }
 
-//    @Override
-//    public String toString() {
-//        return "WebLog{" +
-//                "requestURL='" + requestURL + '\'' +
-//                ", requestMethod='" + requestMethod + '\'' +
-//                ", remoteAddr='" + remoteAddr + '\'' +
-//                ", remotePort=" + remotePort +
-//                ", localAddr='" + localAddr + '\'' +
-//                ", localName='" + localName + '\'' +
-//                "} " + super.toString();
-//    }
+    @Override
+    public String toString() {
+        return "WebLog{" +
+                "requestURL='" + requestURL + '\'' +
+                ", requestMethod='" + requestMethod + '\'' +
+                ", remoteAddr='" + remoteAddr + '\'' +
+                ", remotePort=" + remotePort +
+                ", localAddr='" + localAddr + '\'' +
+                ", localName='" + localName + '\'' +
+                "} " + super.toString();
+    }
 
     @Override
     public boolean equals(Object o) {

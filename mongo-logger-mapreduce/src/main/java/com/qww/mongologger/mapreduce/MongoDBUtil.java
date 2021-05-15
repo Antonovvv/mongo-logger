@@ -6,6 +6,7 @@ import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -78,10 +79,11 @@ public class MongoDBUtil {
 
     private static MongoCollection<Document> getMongoCollection(MongoClient client, ConnectionString connectionString) {
         String databaseName = connectionString.getDatabase();
-        if (databaseName == null) throw new NullPointerException();
+        if (databaseName == null) throw new IllegalArgumentException();
         MongoDatabase db = client.getDatabase(databaseName);
         String collectionName = connectionString.getCollection();
-        if (collectionName == null) throw new NullPointerException();
+        if (collectionName == null) throw new IllegalArgumentException();
+        if (!collectionExists(db, collectionName)) throw new NullPointerException();
         return db.getCollection(collectionName);
     }
 
@@ -98,5 +100,13 @@ public class MongoDBUtil {
         MongoCollection<?> collection = getMongoCollection(client, connectionString);
         collection.drop();
         client.close();
+    }
+
+    public static boolean collectionExists(MongoDatabase db, String collectionName) {
+        MongoIterable<String> it = db.listCollectionNames();
+        for (String name : it) {
+            if (collectionName.equals(name)) return true;
+        }
+        return false;
     }
 }

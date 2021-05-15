@@ -1,11 +1,9 @@
 package com.qww.mongologger.core;
 
 import com.qww.mongologger.core.entity.BaseLog;
-import com.qww.mongologger.core.utils.JSONUtil;
 import com.qww.mongologger.core.utils.SpringBeanUtil;
 import org.slf4j.Logger;
 import org.springframework.aop.framework.AopContext;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +20,8 @@ import java.util.Map;
 public class MongoLogger implements MongoLoggerInterface {
     private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(MongoLogger.class);
     private MongoTemplate mongoTemplate;
-    Map<String, String> logMap = new HashMap<>();
-    Map<String, String> mLogMap = new HashMap<>();
+    Map<String, Object> logMap = new HashMap<>();
+    Map<String, Object> mLogMap = new HashMap<>();
     boolean isInMLogAnnotation = false;
 
     public MongoLogger() {
@@ -40,7 +37,7 @@ public class MongoLogger implements MongoLoggerInterface {
 
     @Override
     public void add(String key, Object value) {
-        getProperMap().put(key, JSONUtil.stringify(value));
+        getProperMap().put(key, value);
     }
 
     @Override
@@ -50,7 +47,7 @@ public class MongoLogger implements MongoLoggerInterface {
 
     @Override
     public void commit(BaseLog log, String collectionName) {
-        log.setInfo(getProperMap());
+        log.setPayload(getProperMap());
         if (collectionName == null || collectionName.equals("")) {
             mongoTemplate.save(log);
         } else {
@@ -88,7 +85,7 @@ public class MongoLogger implements MongoLoggerInterface {
         else return null;
     }
 
-    private Map<String, String> getProperMap() {
+    private Map<String, Object> getProperMap() {
         return this.isInMLogAnnotation ? mLogMap : logMap;
     }
 }

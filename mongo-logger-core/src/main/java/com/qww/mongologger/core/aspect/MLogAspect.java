@@ -15,9 +15,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
-// import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.Mapping;
 import org.springframework.web.context.request.RequestAttributes;
@@ -29,8 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.Map;
+
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Aspect
 @Component
@@ -148,6 +147,8 @@ public class MLogAspect {
                 if (!argTypes[i].isInstance(args[i])) throw new MethodArgumentMismatchException();
                 // response对象不打入日志，避免response.getWriter()错误
                 if (args[i] instanceof HttpServletResponse) continue;
+                // request对象不打入日志，避免field info冲突(MappingException)
+                if (args[i] instanceof HttpServletRequest) continue;
                 execLog.addMethodArg(argNames[i], argTypes[i], args[i]);
             }
 

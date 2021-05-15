@@ -1,9 +1,10 @@
 package com.qww.mongologger.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.qww.mongologger.core.annotation.LogType;
 import com.qww.mongologger.core.entity.interfaces.BaseLogInterface;
-import com.qww.mongologger.core.utils.JSONUtil;
 import com.qww.mongologger.core.utils.exceptions.LogTypeNotFoundException;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -14,9 +15,11 @@ import java.util.Objects;
 
 @Document
 public class BaseLog implements BaseLogInterface {
-    // private String id;
+    @Id
+    @JsonAlias("_id")
+    private String id;
     private Date logTime;
-    private Map<String, String> info = new HashMap<>();
+    private Map<String, Object> payload = new HashMap<>();
 
     @Transient
     private LogType logType;
@@ -41,22 +44,35 @@ public class BaseLog implements BaseLogInterface {
         this.logTime = logTime;
     }
 
-    public void setInfo(Map<String, String> info) {
-        this.info = info;
+    public void setPayload(Map<String, Object> payload) {
+        this.payload = payload;
     }
 
-    public void addInfo(String key, Object value) {
-        info.put(key, JSONUtil.stringify(value));
+    public void addPayload(String key, Object value) {
+        payload.put(key, value);
     }
 
-//    @Override
-//    public String toString() {
-//        return "BaseLog{" +
-//                "logTime=" + logTime +
-//                ", info=" + info +
-//                ", logType=" + logType +
-//                '}';
-//    }
+    public String getId() {
+        return id;
+    }
+
+    public Date getLogTime() {
+        return logTime;
+    }
+
+    public Map<String, Object> getPayload() {
+        return payload;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseLog{" +
+                "id='" + id + '\'' +
+                ", logTime=" + logTime +
+                ", payload=" + payload +
+                ", logType=" + logType +
+                '}';
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -64,12 +80,12 @@ public class BaseLog implements BaseLogInterface {
         if (!(o instanceof BaseLog)) return false;
         BaseLog baseLog = (BaseLog) o;
         return Objects.equals(logTime, baseLog.logTime) &&
-                Objects.equals(info, baseLog.info) &&
+                Objects.equals(payload, baseLog.payload) &&
                 getLogType() == baseLog.getLogType();
     }
 
 //    @Override
 //    public int hashCode() {
-//        return Objects.hash(logTime, info, getLogType());
+//        return Objects.hash(logTime, payload, getLogType());
 //    }
 }
