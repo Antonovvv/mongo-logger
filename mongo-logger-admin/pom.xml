@@ -30,6 +30,10 @@
             <artifactId>spring-data-hadoop</artifactId>
             <version>2.5.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>bson</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>io.github.Antonovvv</groupId>
