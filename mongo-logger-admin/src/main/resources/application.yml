@@ -1,2 +1,5 @@
 server:
   port: 17777
+
+mongologger:
+  uri: "mongodb://mongologger:mongo-logger@122.51.139.75:27777/logger-admin?authSource=admin"

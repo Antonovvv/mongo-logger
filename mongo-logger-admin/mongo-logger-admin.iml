@@ -178,6 +178,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-hadoop-pig:2.5.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-hadoop-batch:2.5.0.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:4.1.1" level="project" />
     <orderEntry type="module" module-name="mongo-logger-core" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.4.3" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.6" level="project" />
@@ -196,7 +197,6 @@
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-mapreduce-client-shuffle:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-yarn-server-nodemanager:2.7.2" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-sync:4.1.1" level="project" />
-    <orderEntry type="library" name="Maven: org.mongodb:bson:4.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:4.1.1" level="project" />
   </component>
 </module>
