@@ -100,6 +100,11 @@ public class TimelineHelper implements Writable {
         return sdf.format(new Date(timeInLine));
     }
 
+    public String getIntervalTime(int intervalCnt) {
+        long intervalTime = startTime.getTime() + interval * intervalCnt;
+        return sdf.format(new Date(intervalTime));
+    }
+
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
