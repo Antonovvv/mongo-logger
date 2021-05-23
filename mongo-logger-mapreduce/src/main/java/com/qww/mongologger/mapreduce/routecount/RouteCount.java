@@ -41,8 +41,8 @@ public class RouteCount {
         String outputURI;
 
         if (args.length == 0) {
-            inputURI = "mongodb://122.51.139.75:27017/test.webLog";
-            outputURI = "mongodb://122.51.139.75:27017/test.routeCount";
+            inputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.param?authSource=admin";
+            outputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeCount?authSource=admin";
         } else if (args.length == 3) {
             String baseURI = args[0];
             String inputCollection = args[1];
@@ -50,8 +50,8 @@ public class RouteCount {
             inputURI = MongoDBUtil.getMongoURI(baseURI, inputCollection);
             outputURI = MongoDBUtil.getMongoURI(baseURI, outputCollection);
         } else {
-            inputURI = "mongodb://122.51.139.75:27017/test.webLog";
-            outputURI = "mongodb://122.51.139.75:27017/test.routeCount";
+            inputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeCount?authSource=admin";
+            outputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeCount?authSource=admin";
         }
 
 //        MongoDBUtil.cleanMongoCollection(outputURI);
