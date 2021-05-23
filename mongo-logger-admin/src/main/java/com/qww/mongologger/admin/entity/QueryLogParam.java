@@ -17,6 +17,7 @@ public class QueryLogParam extends DBInfo {
     public void setRequestMethod(String requestMethod) {
         this.requestMethod = requestMethod;
     }
+
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }

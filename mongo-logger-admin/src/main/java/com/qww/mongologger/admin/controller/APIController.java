@@ -7,6 +7,8 @@ import com.qww.mongologger.admin.service.MapReduceService;
 import com.qww.mongologger.admin.service.QueryService;
 import com.qww.mongologger.admin.utils.TableResult;
 import com.qww.mongologger.core.entity.WebLog;
+import com.qww.mongologger.mapreduce.document.RouteCountDocument;
+import com.qww.mongologger.mapreduce.document.RouteTimelineDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,5 +42,15 @@ public class APIController {
     @RequestMapping("/admin-api/defaultDB")
     public DBInfo defaultDB() {
         return new DBInfo("122.51.139.75:27777", "test", "param");
+    }
+
+    @RequestMapping("/admin-api/analysis/count")
+    public TableResult<RouteCountDocument> getRouteCount() throws JsonProcessingException {
+        return mapReduceService.getRouteCount();
+    }
+
+    @RequestMapping("admin-api/analysis/timeline")
+    public TableResult<RouteTimelineDocument> getRouteTimeline() throws JsonProcessingException {
+        return mapReduceService.getRouteTimeline();
     }
 }
