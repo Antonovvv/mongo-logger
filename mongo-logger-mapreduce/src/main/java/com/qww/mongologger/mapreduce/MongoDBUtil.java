@@ -83,7 +83,7 @@ public class MongoDBUtil {
         MongoDatabase db = client.getDatabase(databaseName);
         String collectionName = connectionString.getCollection();
         if (collectionName == null) throw new IllegalArgumentException();
-        if (!collectionExists(db, collectionName)) throw new NullPointerException();
+        if (!collectionExists(db, collectionName)) return null;
         return db.getCollection(collectionName);
     }
 
@@ -98,7 +98,7 @@ public class MongoDBUtil {
     public static void cleanMongoCollection(ConnectionString connectionString) {
         MongoClient client = getMongoClient(connectionString);
         MongoCollection<?> collection = getMongoCollection(client, connectionString);
-        collection.drop();
+        if (collection != null) collection.drop();
         client.close();
     }
 
