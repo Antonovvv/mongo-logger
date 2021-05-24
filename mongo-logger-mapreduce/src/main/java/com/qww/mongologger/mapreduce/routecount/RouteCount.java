@@ -27,7 +27,7 @@ public class RouteCount {
         job.setMapOutputValueClass(IntWritable.class);
         job.setOutputKeyClass(BSONWritable.class);
         job.setOutputValueClass(IntWritable.class);
-        job.setSortComparatorClass(CountComparator.class);
+        // job.setSortComparatorClass(CountComparator.class);
 
         job.setInputFormatClass(MongoInputFormat.class);
         job.setOutputFormatClass(MongoOutputFormat.class);
