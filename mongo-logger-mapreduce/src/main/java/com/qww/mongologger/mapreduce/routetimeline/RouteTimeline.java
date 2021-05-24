@@ -51,7 +51,7 @@ public class RouteTimeline {
             collectionName = args[0];
         }
         inputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+"."+collectionName+"?authSource=admin";
-        outputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+".routeCount?authSource=admin";
+        outputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+".routeTimeline?authSource=admin";
 
         Date startTime = null; Date endTime = null;
 
