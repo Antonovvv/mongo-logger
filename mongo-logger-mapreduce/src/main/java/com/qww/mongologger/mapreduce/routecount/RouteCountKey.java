@@ -7,24 +7,25 @@ import org.springframework.lang.NonNull;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class RouteCountKey extends RouteKey implements WritableComparable<RouteCountKey> {
     @Override
     public int compareTo(@NonNull RouteCountKey routeCountKey) {
-        Field[] fields = this.getClass().getDeclaredFields();
-        for (Field f : fields) {
-            if (f.getType() != String.class) continue;
-            try {
-                String v1 = (String) f.get(this);
-                String v2 = (String) f.get(routeCountKey);
-                int comp = v1.compareTo(v2);
-                if (comp != 0) return comp;
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-        return 0;
+//        Field[] fields = this.getClass().getDeclaredFields();
+//        for (Field f : fields) {
+//            if (f.getType() != String.class) continue;
+//            try {
+//                String v1 = (String) f.get(this);
+//                String v2 = (String) f.get(routeCountKey);
+//                int comp = v1.compareTo(v2);
+//                if (comp != 0) return comp;
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        String v1 = this.getRequestMethod() + this.getRequestURL();
+        String v2 = routeCountKey.getRequestMethod() + routeCountKey.getRequestURL();
+        return v1.compareTo(v2);
     }
 
     @Override
