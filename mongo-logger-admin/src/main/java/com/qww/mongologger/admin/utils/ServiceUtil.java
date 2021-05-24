@@ -26,7 +26,6 @@ public class ServiceUtil {
                 .dateTimeConverter(new JSONDateTimeConverter())
                 .build();
         String json = document.toJson(settings);
-        System.out.println(json);
         return objectMapper.readValue(json, clazz);
     }
 }

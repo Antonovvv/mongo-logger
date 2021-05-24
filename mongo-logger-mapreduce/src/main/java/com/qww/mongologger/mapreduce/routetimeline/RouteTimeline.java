@@ -41,8 +41,17 @@ public class RouteTimeline {
     }
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
-        String inputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.param?authSource=admin";
-        String outputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeTimeline?authSource=admin";
+        String inputURI;
+        String outputURI;
+        String URI = "122.51.139.75:27777";
+        String databaseName = "test";
+        String collectionName = "example";
+
+        if (args.length == 1) {
+            collectionName = args[0];
+        }
+        inputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+"."+collectionName+"?authSource=admin";
+        outputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+".routeCount?authSource=admin";
 
         Date startTime = null; Date endTime = null;
 

@@ -39,20 +39,15 @@ public class RouteCount {
     public static void main(String[] args) throws Exception {
         String inputURI;
         String outputURI;
+        String URI = "122.51.139.75:27777";
+        String databaseName = "test";
+        String collectionName = "example";
 
-        if (args.length == 0) {
-            inputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.param?authSource=admin";
-            outputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeCount?authSource=admin";
-        } else if (args.length == 3) {
-            String baseURI = args[0];
-            String inputCollection = args[1];
-            String outputCollection = args[2];
-            inputURI = MongoDBUtil.getMongoURI(baseURI, inputCollection);
-            outputURI = MongoDBUtil.getMongoURI(baseURI, outputCollection);
-        } else {
-            inputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeCount?authSource=admin";
-            outputURI = "mongodb://mongologger:mongo-logger@122.51.139.75:27777/test.routeCount?authSource=admin";
+        if (args.length == 1) {
+            collectionName = args[0];
         }
+        inputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+"."+collectionName+"?authSource=admin";
+        outputURI = "mongodb://mongologger:mongo-logger@"+URI+"/"+databaseName+".routeCount?authSource=admin";
 
 //        MongoDBUtil.cleanMongoCollection(outputURI);
         boolean result = RouteCount.run(inputURI, outputURI);
